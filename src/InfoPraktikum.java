@@ -1,6 +1,11 @@
+import java.io.Serializable;
 
-public class InfoPraktikum {
+public class InfoPraktikum implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String namaKoordinator;
 	String topik;
 	

@@ -5,7 +5,6 @@ import javax.swing.JButton;
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
@@ -122,11 +121,7 @@ public class MyClient {
 				svPort = Integer.parseInt(port.getText());
 				Uploader upload = new Uploader();
 				
-				try {
-					upload.upload(filePathUpload, svName, svPort);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+				upload.upload(filePathUpload, svName, svPort);
 			}
 		});
 		btnUpload.setBounds(149, 98, 89, 23);
