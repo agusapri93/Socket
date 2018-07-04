@@ -153,7 +153,7 @@ public class MyServer {
 	}
 	
 	
-	public void runServer(String path, int port, String koordinator, String topik) throws IOException, ClassNotFoundException {
+	public void runServer(String defaultDirectory, int port, String koordinator, String topik) throws IOException, ClassNotFoundException {
 		@SuppressWarnings("resource")
 		
 		ServerSocket serverSocket = new ServerSocket(port);
@@ -164,7 +164,7 @@ public class MyServer {
 		
 		while (true) {
 			Socket socket = serverSocket.accept();
-			new ClientHandler(socket, infoPraktikum, path).start();
+			new ClientHandler(socket, infoPraktikum, defaultDirectory).start();
 		}
 		
 	}

@@ -133,11 +133,11 @@ public class MyClient {
 				svName = serverName.getText();
 				svPort = Integer.parseInt(port.getText());
 				
-				Uploader upload = new Uploader();
+				Uploader uploader = new Uploader();
 				
 				
 				try {
-					 InfoPraktikum informasi = upload.upload(filePathUpload, svName, svPort);
+					 InfoPraktikum informasi = uploader.upload(filePathUpload, svName, svPort);
 					 koordinator.setText(informasi.getNamaKoordinator());
 					 topik.setText(informasi.getTopik());
 				} catch (UnknownHostException e1) {
