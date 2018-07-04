@@ -136,11 +136,11 @@ public class MyServer {
 				int svPort = Integer.parseInt(port.getText());
 				try {
 					new Server().runServer(fileSaveDir, svPort, koordinators, topiks);
-				} catch (ClassNotFoundException e1) {
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					e1.printStackTrace();
+				} catch (ClassNotFoundException | IOException e2) {
+					e2.printStackTrace();
 				}
+				
+				
 			}
 		});
 		btnStartServer.setBounds(137, 163, 100, 23);
