@@ -118,11 +118,13 @@ public class MyClient {
 		koordinator.setBounds(149, 132, 266, 20);
 		desktopPane.add(koordinator);
 		koordinator.setColumns(10);
+		koordinator.setEditable(false);
 		
 		topik = new JTextField();
 		topik.setBounds(149, 163, 266, 20);
 		desktopPane.add(topik);
 		topik.setColumns(10);
+		topik.setEditable(false);
 		
 		btnBrowse.setBounds(425, 66, 89, 23);
 		desktopPane.add(btnBrowse);
