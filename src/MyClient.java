@@ -5,6 +5,8 @@ import javax.swing.JButton;
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.awt.event.ActionEvent;
 import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
@@ -80,15 +82,21 @@ public class MyClient {
 		lblKordinator.setBounds(10, 135, 99, 14);
 		desktopPane.add(lblKordinator);
 		
+		lblTopik = new JLabel("Topik");
+		lblTopik.setBounds(10, 166, 46, 14);
+		desktopPane.add(lblTopik);
+		
 		serverName = new JTextField();
 		serverName.setBounds(149, 8, 266, 20);
 		desktopPane.add(serverName);
 		serverName.setColumns(10);
+		serverName.setText("localhost");
 		
 		port = new JTextField();
 		port.setBounds(149, 36, 266, 20);
 		desktopPane.add(port);
 		port.setColumns(10);
+		port.setText("4444");
 		
 		filePath = new JTextField();
 		filePath.setBounds(149, 67, 266, 20);
@@ -111,6 +119,11 @@ public class MyClient {
 		desktopPane.add(koordinator);
 		koordinator.setColumns(10);
 		
+		topik = new JTextField();
+		topik.setBounds(149, 163, 266, 20);
+		desktopPane.add(topik);
+		topik.setColumns(10);
+		
 		btnBrowse.setBounds(425, 66, 89, 23);
 		desktopPane.add(btnBrowse);
 		
@@ -119,21 +132,26 @@ public class MyClient {
 			public void actionPerformed(ActionEvent e) {
 				svName = serverName.getText();
 				svPort = Integer.parseInt(port.getText());
+				
 				Uploader upload = new Uploader();
 				
-				upload.upload(filePathUpload, svName, svPort);
+				
+				try {
+					 InfoPraktikum informasi = upload.upload(filePathUpload, svName, svPort);
+					 koordinator.setText(informasi.getNamaKoordinator());
+					 topik.setText(informasi.getTopik());
+				} catch (UnknownHostException e1) {
+					e1.printStackTrace();
+				} catch (ClassNotFoundException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				
+				
 			}
 		});
 		btnUpload.setBounds(149, 98, 89, 23);
 		desktopPane.add(btnUpload);
-		
-		topik = new JTextField();
-		topik.setBounds(149, 163, 266, 20);
-		desktopPane.add(topik);
-		topik.setColumns(10);
-		
-		lblTopik = new JLabel("Topik");
-		lblTopik.setBounds(10, 166, 46, 14);
-		desktopPane.add(lblTopik);
 	}
 }

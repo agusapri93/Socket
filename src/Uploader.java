@@ -1,9 +1,11 @@
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.file.Files;
 
 public class Uploader implements Serializable{
 	
@@ -18,28 +20,27 @@ public class Uploader implements Serializable{
 	String serverName;
 	
 	
-	public void upload(String filePath, String serverName, int serverPort) {
-		byte [] file = new byte[32768];
+	public InfoPraktikum upload(String filePath, String serverName, int serverPort) throws UnknownHostException, IOException, ClassNotFoundException {
+		Socket socket = new Socket(serverName, serverPort);
+		File fileToBeSent = new File(filePath);
+		byte[] fileContent = Files.readAllBytes(fileToBeSent.toPath());
 		
-		try {
-			Socket socket = new Socket(serverName, serverPort);
-	
-			FileInputStream fr = new FileInputStream(filePath);
-			fr.read(file, 0, file.length);
-			OutputStream os = socket.getOutputStream();
-			os.write(file, 0, file.length);
-			fr.close();
-			
-			
-			
-			
-			socket.close();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		String fileName = fileToBeSent.getName();
 		
+		ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+		ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+		
+		
+		
+		InfoPraktikum returnMessage = (InfoPraktikum) objectInputStream.readObject();
+		
+		
+		objectOutputStream.writeObject(fileContent);
+		objectOutputStream.writeObject(fileName);
+		
+		socket.close();
+		
+		return returnMessage;
 }
 }
 	
