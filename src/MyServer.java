@@ -123,6 +123,9 @@ public class MyServer {
 			    chooser.showOpenDialog(null);
 			    File location = chooser.getSelectedFile();
 			    defaultDirektori = location.getAbsolutePath();
+			    if (!defaultDirektori.substring(defaultDirektori.length() - 1).equals("\\") ) {
+			    	defaultDirektori = defaultDirektori + "\\";
+			    }
 			    direktori.setText(defaultDirektori);
 			    
 			    
