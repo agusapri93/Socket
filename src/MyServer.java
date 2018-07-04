@@ -1,5 +1,7 @@
 import java.awt.EventQueue;
 import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.net.UnknownHostException;
 
 import javax.swing.JFrame;
@@ -25,8 +27,10 @@ public class MyServer {
 	private JTextField ipAddress;
 	private JTextField direktori;
 	
-	String fileSaveDir = "";
+	String defaultDirektori = "D:\\";
+	boolean isServerOn;
     
+	
 	public static void main(String[] args) {
 
 		EventQueue.invokeLater(new Runnable() {
@@ -106,19 +110,20 @@ public class MyServer {
 		direktori.setBounds(137, 132, 202, 20);
 		desktopPane.add(direktori);
 		direktori.setColumns(10);
+		direktori.setText(defaultDirektori);
 		
 		JButton btnNewButton = new JButton("Browse...");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser chooser = new JFileChooser();
 			    chooser.setCurrentDirectory(new java.io.File("."));
-			    //chooser.setDialogTitle("choosertitle");
+			    chooser.setDialogTitle("Pilih Direktori");
 			    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			    chooser.setAcceptAllFileFilterUsed(false);
 			    chooser.showOpenDialog(null);
 			    File location = chooser.getSelectedFile();
-			    fileSaveDir = location.getAbsolutePath();
-			    direktori.setText(fileSaveDir);
+			    defaultDirektori = location.getAbsolutePath();
+			    direktori.setText(defaultDirektori);
 			    
 			    
 			    
@@ -135,7 +140,7 @@ public class MyServer {
 				String topiks = topik.getText();
 				int svPort = Integer.parseInt(port.getText());
 				try {
-					new Server().runServer(fileSaveDir, svPort, koordinators, topiks);
+					new MyServer().runServer(defaultDirektori, svPort, koordinators, topiks);
 				} catch (ClassNotFoundException | IOException e2) {
 					e2.printStackTrace();
 				}
@@ -146,5 +151,24 @@ public class MyServer {
 		btnStartServer.setBounds(137, 163, 100, 23);
 		desktopPane.add(btnStartServer);
 	}
+	
+	
+	public void runServer(String path, int port, String koordinator, String topik) throws IOException, ClassNotFoundException {
+		@SuppressWarnings("resource")
+		
+		ServerSocket serverSocket = new ServerSocket(port);
+		
+		InfoPraktikum infoPraktikum = new InfoPraktikum(koordinator, topik);
+		System.out.println("Ready to connect on port " + port);
+		
+		
+		while (true) {
+			Socket socket = serverSocket.accept();
+			new ClientHandler(socket, infoPraktikum, path).start();
+		}
+		
+	}
+	
+	
 
 }
